@@ -86,6 +86,43 @@ public class OathParser {
         sites.add(loadSite(SavefileDataType.Site8));
         game.setSites(sites);
 
+        // load world deck count
+        StartEnd worldStartEnd = getStartEndByIndex(SavefileDataType.WorldDeckSize);
+        int numWorldCards = getHexFromStringAsNumber(worldStartEnd.getStart(), worldStartEnd.getEnd());
+
+        // load world deck
+        game.setWorld(new ArrayList<>());
+        for (int i = 0; i < numWorldCards; i++) {
+            int cardIndex = getHexFromStringAsNumber(worldStartEnd.getEnd() + (2 * i), worldStartEnd.getEnd() + (2 * (i + 1)));
+            game.getWorld().add(new Card(CardName.list[cardIndex], cardIndex));
+        }
+
+        updateOffset(worldStartEnd.getEnd() + (2 * numWorldCards));
+
+        // load dispossessed cards
+        StartEnd dispStartEnd = getStartEndByIndex(SavefileDataType.DispossessedDeckSize);
+        int numDispossessed = getHexFromStringAsNumber(dispStartEnd.getStart(), dispStartEnd.getEnd());
+
+        game.setDispossessed(new ArrayList<>());
+        for (int i = 0; i < numDispossessed; i++) {
+            int cardIndex = getHexFromStringAsNumber(dispStartEnd.getEnd() + (2 * i), dispStartEnd.getEnd() + (2 * (i + 1)));
+            game.getDispossessed().add(new Card(CardName.list[cardIndex], cardIndex));
+        }
+
+        updateOffset(dispStartEnd.getEnd() + (2 * numDispossessed));
+
+        // load relic cards
+        StartEnd relicStartEnd = getStartEndByIndex(SavefileDataType.RelicDeckSize);
+        int numRelics = getHexFromStringAsNumber(relicStartEnd.getStart(), relicStartEnd.getEnd());
+
+        game.setRelics(new ArrayList<>());
+        for (int i = 0; i < numRelics; i++) {
+            int cardIndex = getHexFromStringAsNumber(relicStartEnd.getEnd() + (2 * i), relicStartEnd.getEnd() + (2 * (i + 1)));
+            game.getRelics().add(new Card(CardName.list[cardIndex], cardIndex));
+        }
+
+        updateOffset(relicStartEnd.getEnd() + (2 * numRelics));
+
         return game;
     }
 
@@ -98,11 +135,11 @@ public class OathParser {
         List<Card> cards = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
             int cardData = getHexFromStringAsNumber(siteStartEnd.getEnd() + (2 * i), siteStartEnd.getEnd() + (2 * (i + 1)));
-            cards.add(i, new Card(CardName.list[cardData]));
+            cards.add(i, new Card(CardName.list[cardData], cardData));
         }
 
         site.setName(SiteName.getByCode(siteData).getName());
-        site.setRuined(siteData >= 24);
+        site.setFacedown(siteData >= 24);
         site.setCards(cards);
 
         return site;

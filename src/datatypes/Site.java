@@ -5,7 +5,7 @@ import java.util.List;
 public class Site {
 
     private String name;
-    private boolean ruined;
+    private boolean facedown;
     private List<Card> cards;
 
     public String getName() {
@@ -16,12 +16,12 @@ public class Site {
         this.name = name;
     }
 
-    public boolean isRuined() {
-        return ruined;
+    public boolean isFacedown() {
+        return facedown;
     }
 
-    public void setRuined(boolean ruined) {
-        this.ruined = ruined;
+    public void setFacedown(boolean facedown) {
+        this.facedown = facedown;
     }
 
     public List<Card> getCards() {
@@ -36,8 +36,8 @@ public class Site {
     public String toString() {
         return "Site{" +
                 "name='" + name + '\'' +
-                ", ruined=" + ruined +
+                ", facedown=" + facedown +
                 ", cards=" + cards +
-                '}';
+                '}' + "\n";
     }
 }

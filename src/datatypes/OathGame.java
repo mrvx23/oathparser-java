@@ -111,7 +111,7 @@ public class OathGame {
                 ", chronicleName='" + chronicleName + '\'' +
                 ", playerCitizenship=" + playerCitizenship +
                 ", oath='" + oath + '\'' +
-                ", suitOrder=" + suitOrder +
+                ", suitOrder=" + suitOrder + "\n" +
                 ", sites=" + sites +
                 ", world=" + world +
                 ", dispossessed=" + dispossessed +
